@@ -1,17 +1,17 @@
-// Гаусс-Жордан для обернення матриці
+// Gauss - Jordan method to find inversed matrix
 void gaussJordanMethod(MatrixData& data) {
 
-    //перевірка матриці на квадратність
+    //checking if matrix is square
     if (data.m != data.n) {
         cout << "Matrix must be square." << endl;
         return;
     }
 
-    //Створення та заповнення розширеної матриці (A | E)
+    //Creating and filling extended matrix (A | E)
     MatrixData extendedMatrix(data.m, 2 * data.n);
     extendedMatrix.fillExtendedMatrix();
 
-    //Перевірка на невиродженість
+    //Checking if matrix has non-zero determinant
     double pivot = 0;
     for (int i = 0; i < data.m; i++) {
         pivot = extendedMatrix.matrix[i][i];
@@ -21,10 +21,10 @@ void gaussJordanMethod(MatrixData& data) {
             return;
         }
 
-        //крок 1:обнулення елементів на головній діагоналі
+        //Step 1.Making all elements on main diagonal 1
         extendedMatrix.multiplyRowByNumber(i, 1.0 / pivot);
 
-        //тут обнулення всіх елементів,які не на головній діагоналі
+        //Zeroing all else elments
         double factor = 0;
         for (int j = 0; j < data.m; j++) {
             if (j != i) {
