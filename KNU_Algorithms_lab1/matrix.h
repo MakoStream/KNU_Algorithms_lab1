@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿
+#pragma once
 #include <iostream>
 #include <stdexcept>
 #include "basic_functions.h"
@@ -10,6 +11,7 @@ struct MatrixData {
     int n;
 
     MatrixData(int m, int n);
+
     MatrixData(int m, int n, int protocol); // for making filled matrix with numbers // Makar
     MatrixData();
     ~MatrixData();
@@ -38,7 +40,7 @@ MatrixData::MatrixData(int m, int n) {
     return;
 }
 
-// Конструктор з параметрами + заповнення матриці
+// consgtructor with protocol for filling matrix with numbers + validation
 MatrixData::MatrixData(int m, int n, int protocol) {
     this->m = m;
     this->n = n;
@@ -57,7 +59,7 @@ MatrixData::MatrixData(int m, int n, int protocol) {
                 cerr << "Error: Expected " << n << " values, but got " << rowValues.size() << ". Please re-enter the row." << endl;
             }
             else {
-                break;  // якщо правильно ввели, виходимо з while
+                break;
             }
         }
 
@@ -69,7 +71,8 @@ MatrixData::MatrixData(int m, int n, int protocol) {
 }
 
 
-// Конструктор без параметрів + валідація
+
+// constructor with validation
 MatrixData::MatrixData() {
     do {
         cout << "Matrix rows (must be > 1): ";
