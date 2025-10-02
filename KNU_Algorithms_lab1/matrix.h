@@ -70,9 +70,7 @@ MatrixData::MatrixData(int m, int n, int protocol) {
     }
 }
 
-
-
-// constructor with validation
+// Contructor without parameters + validation
 MatrixData::MatrixData() {
     do {
         cout << "Matrix rows (must be > 1): ";
@@ -96,7 +94,7 @@ MatrixData::MatrixData() {
     return;
 }
 
-// Звільнення памʼяті
+// Freeing consumed memory
 MatrixData::~MatrixData() {
     for (int i = 0; i < m; i++) {
         delete[] matrix[i];
@@ -104,7 +102,7 @@ MatrixData::~MatrixData() {
     delete[] matrix;
 }
 
-// Виведення матриці
+// Showing matrix
 void MatrixData::show() const {
     for (int i = 0; i < m; i++) {
         cout << "| ";
@@ -115,7 +113,7 @@ void MatrixData::show() const {
     }
 }
 
-// Заповнення розширеної матриці (A | I)
+// Filling extended matrix (A | E)
 void MatrixData::fillExtendedMatrix() {
     MatrixData extended(m, 2 * n);
 
@@ -129,14 +127,14 @@ void MatrixData::fillExtendedMatrix() {
     }
 }
 
-// Множення рядка на число
+// Multiplying row by number
 void MatrixData::multiplyRowByNumber(int rowNumber, double number) {
     for (int j = 0; j < n; j++) {
         matrix[rowNumber][j] *= number;
     }
 }
 
-// Віднімання (row1 - factor * row2)
+// Substraction (row1 - factor * row2)
 void MatrixData::substractRow(int row1, int row2, double factor) {
     for (int j = 0; j < n; j++) {
         matrix[row1][j] -= factor * matrix[row2][j];
