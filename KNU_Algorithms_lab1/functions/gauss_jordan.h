@@ -1,3 +1,6 @@
+#pragma once
+#include "../matrix.h"
+
 // Гаусс-Жордан для обернення матриці
 void gaussJordanMethod(MatrixData& data) {
 

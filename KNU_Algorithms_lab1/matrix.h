@@ -1,5 +1,7 @@
-﻿#include <iostream>
+﻿#pragma once
+#include <iostream>
 #include <stdexcept>
+#include "basic_functions.h"
 using namespace std;
 
 struct MatrixData {
@@ -8,9 +10,11 @@ struct MatrixData {
     int n;
 
     MatrixData(int m, int n);
+    MatrixData(int m, int n, int protocol); // for making filled matrix with numbers // Makar
     MatrixData();
     ~MatrixData();
 
+    
     void show() const;
     void fillExtendedMatrix();
     void multiplyRowByNumber(int rowNumber, double number);
@@ -21,7 +25,7 @@ struct MatrixData {
 MatrixData::MatrixData(int m, int n) {
     if (m <= 1 || n <= 1) {
         cerr << "Error: Matrix dimensions must be greater than 1." << endl;
-        exit(1);
+		return;
     }
 
     this->m = m;
@@ -31,7 +35,39 @@ MatrixData::MatrixData(int m, int n) {
     for (int i = 0; i < m; i++) {
         matrix[i] = new double[n];
     }
+    return;
 }
+
+// Конструктор з параметрами + заповнення матриці
+MatrixData::MatrixData(int m, int n, int protocol) {
+    this->m = m;
+    this->n = n;
+
+    matrix = new double* [m];
+    for (int i = 0; i < m; i++) {
+        vector<double> rowValues;
+        while (true) {
+            cout << "Filling row " << i << "> ";
+            string tokens;
+            getline(cin, tokens);
+
+            rowValues = split_d(tokens);
+
+            if (rowValues.size() != n) {
+                cerr << "Error: Expected " << n << " values, but got " << rowValues.size() << ". Please re-enter the row." << endl;
+            }
+            else {
+                break;  // якщо правильно ввели, виходимо з while
+            }
+        }
+
+        matrix[i] = new double[n];
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = rowValues[j];
+        }
+    }
+}
+
 
 // Конструктор без параметрів + валідація
 MatrixData::MatrixData() {
@@ -54,6 +90,7 @@ MatrixData::MatrixData() {
             cin >> matrix[i][j];
         }
     }
+    return;
 }
 
 // Звільнення памʼяті

@@ -1,20 +1,8 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
+#include "basic_functions.h"
+#include "matrix.h"
 
-using namespace std;
 
-vector<string> split(const string& input) {
-	vector<string> tokens;
-	istringstream iss(input);
-	string word;
-	while (iss >> word) {
-		tokens.push_back(word);
-	};
-	return tokens;
-};
 
 int main() {
 	setlocale(LC_ALL, "ukr");
@@ -26,6 +14,9 @@ int main() {
 	// print - print the current matrix
 	// add <filename> - add a matrix from a file *.mtx to the current matrix
 	// func <function> - apply a function to the current matrix (functions: #MUST BE HERE#)
+	MatrixData currentMatrix(3, 3, 1);
+	currentMatrix.show();
+
 	while (true) {
 		std::string input;
 		
