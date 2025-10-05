@@ -17,14 +17,15 @@ MatrixData liniarRegression(const MatrixData& X, const MatrixData& Y) {
 	//======================================================
 
 	// Step 1: Compute X^T
+	MatrixData XT = X.transpose();
 
-	// Step 2: Compute X^T * X
+	// Step 2: Compute X^T * X (shtrassen)
 
-	// Step 3: Invert the result from Step 2 ( (X^T * X)^-1 )
+	// Step 3: Invert the result from Step 2 ( (X^T * X)^-1 ) (gauss_jordan)
 
-	// Step 4: Compute X^T * Y
+	// Step 4: Compute X^T * Y (strassen)
 
-	// Step 5: Multiply the results from Step 3 and Step 4 to get the coefficients
+	// Step 5: Multiply the results from Step 3 and Step 4 to get the coefficients ( (X^T * X)^-1 * X^T * Y ) (strassen)
 
 	//======================================================
 }

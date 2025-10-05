@@ -3,6 +3,7 @@
 // include command headers here
 #include "../commands/HelpCommand.h"
 #include "../commands/ExitCommand.h"
+#include "../commands/CollectionCommad.h"
 //======================
 
 	// Some commands:
@@ -24,6 +25,7 @@ CommandsManager::CommandsManager() {
 
     commands.push_back(std::make_unique<HelpCommand>());
 	commands.push_back(std::make_unique<ExitCommand>());
+	commands.push_back(std::make_unique<CollectionCommand>());
 
 }
 
