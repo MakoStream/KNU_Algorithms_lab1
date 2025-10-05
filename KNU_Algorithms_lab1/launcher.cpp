@@ -1,8 +1,9 @@
 #include <iostream>
 #include "basic_functions.h"
 #include "matrix.h"
+#include "Executor/CommandManager.h"
 
-// test commit
+CommandsManager commandManager;
 
 using namespace std;
 
@@ -27,7 +28,7 @@ int main() {
 		getline(cin, input);
 		if (input.empty()) continue;
 		vector<string> args = split(input);
-
+		commandManager.execute(args[0], args);
 	
 	};
 	return 0;
