@@ -13,13 +13,11 @@ int main() {
 	// Some commands:
 	// help - show all commands
 	// exit - exit the program
-	// load <filename> - load a file *.mtx with a matrix
-	// save <filename> - save the current matrix to a file *.mtx
-	// print - print the current matrix
-	// add <filename> - add a matrix from a file *.mtx to the current matrix
-	// func <function> - apply a function to the current matrix (functions: #MUST BE HERE#)
-	MatrixData currentMatrix(3, 3, 1);
-	currentMatrix.show();
+	// collection - show all collections
+	// newMatrix <name> - create new matrix with name
+	// showMatrix <name> - show matrix with name
+	// loadMatrix <name> <filename> - load matrix from file
+	// saveMatrix <name> <filename> - save matrix to file
 
 	while (true) {
 		std::string input;

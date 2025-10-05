@@ -3,10 +3,7 @@
 
 
 MatrixData::MatrixData(int m, int n) {
-    if (m <= 1 || n <= 1) {
-        cerr << "Error: Matrix dimensions must be greater than 1." << endl;
-        return;
-    }
+    if (m <= 0 || n <= 0) throw std::invalid_argument("Matrix size must be > 0");
 
     this->m = m;
     this->n = n;
@@ -16,6 +13,12 @@ MatrixData::MatrixData(int m, int n) {
         matrix[i] = new double[n];
     }
     return;
+}
+
+MatrixData::MatrixData(bool empty) {
+    m = 0;
+    n = 0;
+    matrix = nullptr;
 }
 
 // consgtructor with protocol for filling matrix with numbers + validation
@@ -51,26 +54,43 @@ MatrixData::MatrixData(int m, int n, int protocol) {
 // Contructor without parameters + validation
 MatrixData::MatrixData() {
     do {
-        cout << "Matrix rows (must be > 1): ";
+        cout << "Matrix rows (must be >= 1): ";
         cin >> m;
-        cout << "Matrix columns (must be > 1): ";
+        cout << "Matrix columns (must be >= 1): ";
         cin >> n;
 
         if (m <= 1 || n <= 1) {
-            cout << "Error: Both dimensions must be greater than 1. Try again.\n";
+            cout << "Error: Both dimensions must be greater than 0. Try again.\n";
         }
     } while (m <= 1 || n <= 1);
 
     matrix = new double* [m];
     for (int i = 0; i < m; i++) {
+        vector<double> rowValues;
+        while (true) {
+            cout << "Filling row " << i << "> ";
+            string tokens;
+            getline(cin, tokens);
+
+            rowValues = split_d(tokens);
+
+            if (rowValues.size() != n) {
+                cerr << "Error: Expected " << n << " values, but got " << rowValues.size() << ". Please re-enter the row." << endl;
+            }
+            else {
+                break;
+            }
+        }
+
         matrix[i] = new double[n];
         for (int j = 0; j < n; j++) {
-            cout << "Matrix[" << i << "][" << j << "]: ";
-            cin >> matrix[i][j];
+            matrix[i][j] = rowValues[j];
         }
     }
     return;
 }
+
+
 
 // Freeing consumed memory
 MatrixData::~MatrixData() {
@@ -128,4 +148,24 @@ MatrixData MatrixData::transpose() {
         }
     }
     return transposed;
+}
+
+MatrixData* MatrixData::copy() {
+	MatrixData* copied = new MatrixData(m, n);
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			copied->matrix[i][j] = matrix[i][j];
+		}
+	}
+	return copied;
+}
+
+MatrixData MatrixData::copy_full() {
+    MatrixData copied(m, n);
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            copied.matrix[i][j] = matrix[i][j];
+        }
+    }
+    return copied;
 }

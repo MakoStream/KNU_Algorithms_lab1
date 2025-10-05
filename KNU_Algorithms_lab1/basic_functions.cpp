@@ -1,5 +1,7 @@
 #include "basic_functions.h"
 
+std::vector<Collection> collections;
+
 vector<string> split(const string& input) {
 	vector<string> tokens;
 	istringstream iss(input);
@@ -22,38 +24,51 @@ vector<double> split_d(const string& input) {
 };
 
 void SaveMatrixToFile(const MatrixData& matrix, const string& filename) {
-	ofstream file(filename);
-	if (!file.is_open()) {
-		cerr << "Error: Could not open file " << filename << " for writing." << endl;
-		return;
-	}
-	file << matrix.m << " " << matrix.n << "\n";
-	for (int i = 0; i < matrix.m; i++) {
-		for (int j = 0; j < matrix.n; j++) {
-			file << matrix.matrix[i][j];
-			if (j < matrix.n - 1) file << " ";
-		}
-		file << "\n";
-	}
-	file.close();
-};
+    ofstream file(filename + ".mtrx", ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << ".mtrx for writing." << endl;
+        return;
+    }
+
+    // Спочатку записуємо розміри
+    file.write(reinterpret_cast<const char*>(&matrix.m), sizeof(int));
+    file.write(reinterpret_cast<const char*>(&matrix.n), sizeof(int));
+
+    // Потім всі елементи рядок за рядком
+    for (int i = 0; i < matrix.m; i++) {
+        file.write(reinterpret_cast<const char*>(matrix.matrix[i]), sizeof(double) * matrix.n);
+    }
+
+    file.close();
+}
 
 MatrixData LoadMatrixFromFile(const string& filename) {
-	ifstream file(filename);
-	if (!file.is_open()) {
-		cerr << "Error: Could not open file " << filename << " for reading." << endl;
-		return MatrixData();
-	}
+    ifstream file(filename + ".mtrx", ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << ".mtrx for reading." << endl;
+        return MatrixData(true);; // порожня матриця
+    }
 
-	int m, n;
-	file >> m >> n;
-	MatrixData matrix(m, n);
+    int m, n;
+    file.read(reinterpret_cast<char*>(&m), sizeof(int));
+    file.read(reinterpret_cast<char*>(&n), sizeof(int));
 
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
-			file >> matrix.matrix[i][j];
-		}
-	}
-	file.close();
-	return matrix;
+    MatrixData matrix(m, n);
+
+    for (int i = 0; i < m; i++) {
+        file.read(reinterpret_cast<char*>(matrix.matrix[i]), sizeof(double) * n);
+    }
+    //matrix.show();
+
+    file.close();
+    return matrix;
+}
+
+MatrixData* selectMatrixByName(const string& name) {
+	for (auto& collection : collections) {
+		if (collection.name == name) {
+			return collection.matrix;
+		};
+	};
+	return nullptr;
 };

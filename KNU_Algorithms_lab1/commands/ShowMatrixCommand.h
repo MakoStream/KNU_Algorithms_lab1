@@ -1,24 +1,28 @@
 #pragma once
+
 #include "../Executor/Command.h"
-#include <iostream>
 #include "../basic_functions.h"
 
-class CollectionCommand : public Command {
+
+class ShowMatrixCommand : public Command {
 
 public:
 	void execute(const std::vector<std::string>& args) override { // here we will implement the logic of the command
-		if (collections.size() < 1) {
-			cout << "No collections available.\n";
+		if (args.size() < 2) {
+			std::cout << "Usage: showMatrix <name>\n";
 			return;
 		};
-		cout << "Collection of matrix:\n";
 		for (const auto& a : collections) {
-			cout << a.name << " (" << a.matrix->n << "x" << a.matrix->m << ")\n";
-		};
+			if (a.name == args[1]) {
+				a.matrix->show();
+				return;
+			}
+		}
+		std::cout << "Matrix with name " << args[1] << " not found.\n";
 		return;
 	}
 
 	std::string name() const override { // the name of the command. Required for command manager to identify the command
-		return "collection";
+		return "showMatrix";
 	}
 };

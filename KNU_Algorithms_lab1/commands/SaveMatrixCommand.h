@@ -1,24 +1,27 @@
 #pragma once
+
 #include "../Executor/Command.h"
-#include <iostream>
 #include "../basic_functions.h"
 
-class CollectionCommand : public Command {
+
+class SaveMatrixCommand : public Command {
 
 public:
 	void execute(const std::vector<std::string>& args) override { // here we will implement the logic of the command
-		if (collections.size() < 1) {
-			cout << "No collections available.\n";
+		if (args.size() < 3) {
+			std::cout << "Usage: saveMatrix <name> <filename>\n";
 			return;
 		};
-		cout << "Collection of matrix:\n";
 		for (const auto& a : collections) {
-			cout << a.name << " (" << a.matrix->n << "x" << a.matrix->m << ")\n";
+			if (a.name == args[1]) {
+				SaveMatrixToFile(*(a.matrix), args[2]);
+				std::cout << "Matrix " << args[1] << " saved to " << args[2] << "\n";
+				return;
+			};
 		};
-		return;
 	}
 
 	std::string name() const override { // the name of the command. Required for command manager to identify the command
-		return "collection";
+		return "saveMatrix";
 	}
 };

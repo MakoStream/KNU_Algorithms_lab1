@@ -4,6 +4,10 @@
 #include "../commands/HelpCommand.h"
 #include "../commands/ExitCommand.h"
 #include "../commands/CollectionCommad.h"
+#include "../commands/NewMatrixCommand.h"
+#include "../commands/SaveMatrixCommand.h"
+#include "../commands/ShowMatrixCommand.h"
+#include "../commands/LoadMatrixCommand.h"
 //======================
 
 	// Some commands:
@@ -26,6 +30,10 @@ CommandsManager::CommandsManager() {
     commands.push_back(std::make_unique<HelpCommand>());
 	commands.push_back(std::make_unique<ExitCommand>());
 	commands.push_back(std::make_unique<CollectionCommand>());
+	commands.push_back(std::make_unique<NewMatrixCommand>());
+	commands.push_back(std::make_unique<SaveMatrixCommand>());
+	commands.push_back(std::make_unique<ShowMatrixCommand>());
+	commands.push_back(std::make_unique<LoadMatrixCommand>());
 
 }
 
