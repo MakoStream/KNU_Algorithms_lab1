@@ -8,6 +8,7 @@
 #include "../commands/SaveMatrixCommand.h"
 #include "../commands/ShowMatrixCommand.h"
 #include "../commands/LoadMatrixCommand.h"
+#include "../commands/FunctionCommand.h"
 //======================
 
 	// Some commands:
@@ -34,6 +35,7 @@ CommandsManager::CommandsManager() {
 	commands.push_back(std::make_unique<SaveMatrixCommand>());
 	commands.push_back(std::make_unique<ShowMatrixCommand>());
 	commands.push_back(std::make_unique<LoadMatrixCommand>());
+	commands.push_back(std::make_unique<FuncCommand>());
 
 }
 
