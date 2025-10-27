@@ -13,17 +13,18 @@ struct MatrixData {
     MatrixData(int m, int n);
 
     MatrixData(int m, int n, int protocol); // for making filled matrix with numbers // Makar
+    MatrixData(int code); // used if something gone wrong in gauss-gordan method (Mykola) 
     MatrixData();
     ~MatrixData();
 	MatrixData(bool empty); // for making empty matrix // Makar
 
-
     
     void show() const;
-    void fillExtendedMatrix();
+    MatrixData extendMatrix();
+    MatrixData getInverseMatrix();//(Mykola)
     void multiplyRowByNumber(int rowNumber, double number);
     void substractRow(int row1, int row2, double factor);
-	MatrixData transpose();
+	MatrixData transpose() const;//Added const to fix an error (Mykola)
 	MatrixData* copy();
     MatrixData copy_full();
 

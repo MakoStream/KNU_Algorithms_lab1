@@ -51,6 +51,23 @@ MatrixData::MatrixData(int m, int n, int protocol) {
     }
 }
 
+MatrixData::MatrixData(int code)//code will be -1 but now it doesn't matter
+{
+    //matrix will consist of INT_MATRIX(2x2)
+    m = 2;
+    n = 2;
+
+    matrix = new double* [m];
+    for (int i = 0; i < m; i++) {
+        matrix[i] = new double[n];
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = INT_MAX;
+        }
+    }
+
+    show();
+}
+
 // Contructor without parameters + validation
 MatrixData::MatrixData() {
     do {
@@ -90,8 +107,6 @@ MatrixData::MatrixData() {
     return;
 }
 
-
-
 // Freeing consumed memory
 MatrixData::~MatrixData() {
     for (int i = 0; i < m; i++) {
@@ -111,8 +126,8 @@ void MatrixData::show() const {
     }
 }
 
-// Filling extended matrix (A | E)
-void MatrixData::fillExtendedMatrix() {
+MatrixData MatrixData::extendMatrix() {
+
     MatrixData extended(m, 2 * n);
 
     for (int i = 0; i < m; i++) {
@@ -123,6 +138,21 @@ void MatrixData::fillExtendedMatrix() {
             extended.matrix[i][j] = (i == j - n) ? 1.0 : 0.0;
         }
     }
+
+    return extended;
+}
+
+MatrixData MatrixData::getInverseMatrix()
+{
+    MatrixData inverseMatrix(m, n / 2);
+
+    for (int i = 0; i < m; i++) {
+        for (int j = n / 2; j < n; j++) {
+            inverseMatrix.matrix[i][j - (n / 2)] = matrix[i][j];
+        }
+    }
+
+    return inverseMatrix;
 }
 
 // Multiplying row by number
@@ -140,7 +170,7 @@ void MatrixData::substractRow(int row1, int row2, double factor) {
 }
 
 
-MatrixData MatrixData::transpose() {
+MatrixData MatrixData::transpose() const{ // added const to fix an error(Mykola)
     MatrixData transposed(n, m);
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {

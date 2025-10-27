@@ -48,8 +48,8 @@ public:
 				}
 			}
 			matrix_name = args[3];
-			gaussJordanMethod(*result);
-			result->show();
+			*result = gaussJordanMethod(*result);
+			collections.push_back({ matrix_name,result });
 		}
 		else if (args[1] == "liniar_regression") { // func <function_name(liniar_regression)> <matrix_1_name> <matrix_2_name> <save_into_name>
 			if (args.size() < 5) { return; };
