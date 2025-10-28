@@ -170,7 +170,7 @@ void MatrixData::substractRow(int row1, int row2, double factor) {
 }
 
 
-MatrixData MatrixData::transpose() const{ // added const to fix an error(Mykola)
+MatrixData MatrixData::transpose() const{ // added const to fix an error
     MatrixData transposed(n, m);
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {

@@ -1,13 +1,20 @@
 #include "strassen.h"
 
 static MatrixData classicMul(const MatrixData& A, const MatrixData& B) {
+
+    // Ініціалізуємо результат як нульову матрицю
     MatrixData C(A.m, B.n);
-    for (int i = 0; i < A.m; ++i)
-        for (int k = 0; k < A.n; ++k) {
-            double a = A.matrix[i][k];
-            for (int j = 0; j < B.n; ++j)
-                C.matrix[i][j] += a * B.matrix[k][j];
+
+    // Запускаємо три цикли для класичного множення
+    for (int i = 0; i < A.m; ++i) {
+        for (int j = 0; j < B.n; ++j) {
+            C.matrix[i][j] = 0;  // Обнуляємо елемент перед початком сумування
+            for (int k = 0; k < A.n; ++k) {
+                C.matrix[i][j] += A.matrix[i][k] * B.matrix[k][j];
+            }
         }
+    }
+
     return C;
 }
 
@@ -40,9 +47,16 @@ static MatrixData cut(const MatrixData& M, int r0, int c0, int sz) {
 }
 
 static void put(MatrixData& D, const MatrixData& S, int r0, int c0) {
-    for (int i = 0; i < S.m; ++i)
-        for (int j = 0; j < S.n; ++j)
+    if (r0 + S.m > D.m || c0 + S.n > D.n) {
+        cout << "Error: Trying to put matrix out of bounds." << endl;
+        return;
+    }
+
+    for (int i = 0; i < S.m; ++i) {
+        for (int j = 0; j < S.n; ++j) {
             D.matrix[r0 + i][c0 + j] = S.matrix[i][j];
+        }
+    }
 }
 
 static MatrixData strassenRec(const MatrixData& A, const MatrixData& B, int cutoff) {
@@ -71,7 +85,7 @@ static MatrixData strassenRec(const MatrixData& A, const MatrixData& B, int cuto
     MatrixData C11 = addM(subM(addM(M1, M4), M5), M7);
     MatrixData C12 = addM(M3, M5);
     MatrixData C21 = addM(M2, M4);
-    MatrixData C22 = addM(subM(addM(M1, M3), M2), M6);
+    MatrixData C22 = addM(subM(M1, M2),addM(M3,M6));
 
     MatrixData C(n, n);
     put(C, C11, 0, 0);
@@ -81,10 +95,22 @@ static MatrixData strassenRec(const MatrixData& A, const MatrixData& B, int cuto
     return C;
 }
 
-MatrixData strassenMultiply(const MatrixData& A, const MatrixData& B, int cutoff) { //cutoff is defined once in strassen.h (Mykola)
+MatrixData strassenMultiply(const MatrixData& A, const MatrixData& B, int cutoff) { //cutoff is defined once in strassen.h
 
-    if (A.n != B.m) return MatrixData(0, 0);
-    if (A.m != A.n || B.m != B.n || A.m != B.m) return MatrixData(0, 0);
-    if (!isPowerOfTwo(A.m)) return MatrixData(0, 0);
+
+    if (A.n != B.m) {
+        cout << "Incopatible matrices case 1" << endl;
+        return MatrixData(-1);
+    }
+    if (A.m != A.n || B.m != B.n || A.m != B.m) 
+    {
+        cout << "Incopatible matrices case 2" << endl;
+        return MatrixData(-1);
+    }
+    if (!isPowerOfTwo(A.m)) 
+    {
+        cout << "Not a power of two" << endl;
+       return MatrixData(-1);
+    }
     return strassenRec(A, B, cutoff);
 }

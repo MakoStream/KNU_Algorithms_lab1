@@ -34,10 +34,12 @@ public:
 				cerr << "Error: one of the matrices not found" << endl;
 				return;
 			}
-			//matrix1->show(); matrix2->show();
+
 			matrix_name = args[4];
 			result = new MatrixData(strassenMultiply(*matrix1, *matrix2));
+			cout << "Result matrix:" << endl;
 			result->show();
+			collections.push_back({ matrix_name,result });
 		}
 		else if (args[1] == "gauss_jordan") { // func <function_name(gauss_jordan)> <matrix_name> <save_into_name>
 			if (args.size() < 4) { return; };
