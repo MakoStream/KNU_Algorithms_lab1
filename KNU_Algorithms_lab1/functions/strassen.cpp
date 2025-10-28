@@ -82,6 +82,7 @@ static MatrixData strassenRec(const MatrixData& A, const MatrixData& B, int cuto
 }
 
 MatrixData strassenMultiply(const MatrixData& A, const MatrixData& B, int cutoff) { //cutoff is defined once in strassen.h (Mykola)
+
     if (A.n != B.m) return MatrixData(0, 0);
     if (A.m != A.n || B.m != B.n || A.m != B.m) return MatrixData(0, 0);
     if (!isPowerOfTwo(A.m)) return MatrixData(0, 0);
